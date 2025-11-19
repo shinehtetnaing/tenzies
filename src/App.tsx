@@ -5,7 +5,11 @@ function App() {
   const [dice, setDice] = useState(generateAllNewDice());
 
   function generateAllNewDice() {
-    return new Array(10).fill(0).map(() => Math.ceil(Math.random() * 6));
+    return new Array(10).fill(0).map(() => ({
+      value: Math.ceil(Math.random() * 6),
+      isHeld: false,
+      id: crypto.randomUUID(),
+    }));
     // const newDice = [];
     // for (let i = 0; i < 10; i++) {
     //   const rand = Math.ceil(Math.random() * 6);
@@ -18,6 +22,14 @@ function App() {
     setDice(generateAllNewDice());
   };
 
+  const hold = (id: string) => {
+    setDice((prevDice) =>
+      prevDice.map((die) =>
+        die.id === id ? { ...die, isHeld: !die.isHeld } : die,
+      ),
+    );
+  };
+
   return (
     <main className="bg-main-bg flex h-[calc(100vh-40px)] flex-col items-center justify-center rounded p-16">
       <h1 className="mb-3 text-4xl font-bold">Tenzies</h1>
@@ -26,8 +38,13 @@ function App() {
         current value between rolls.
       </p>
       <div className="my-10 grid grid-cols-5 gap-4 sm:gap-8 md:gap-12">
-        {dice.map((value, index) => (
-          <Die key={index} value={value} />
+        {dice.map((dieObj, index) => (
+          <Die
+            key={index}
+            value={dieObj.value}
+            held={dieObj.isHeld}
+            hold={() => hold(dieObj.id)}
+          />
         ))}
       </div>
       <button
