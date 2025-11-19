@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  --color-body-bg: #0B2434;
+  --color-main-bg: #F5F5F5;
+  --color-btn-bg: #5035FF;
+}
+
+@layer base {
+  body {
+    @apply bg-body-bg p-5 min-h-screen;
+  }
+}
