@@ -1,8 +1,13 @@
 import { useState } from "react";
+import Confetti from "react-confetti";
 import Die from "./components/Die";
 
 function App() {
   const [dice, setDice] = useState(generateAllNewDice());
+
+  const gameWon = dice.every(
+    (die) => die.isHeld && die.value === dice[0].value,
+  );
 
   function generateAllNewDice() {
     return new Array(10).fill(0).map(() => ({
@@ -36,6 +41,7 @@ function App() {
 
   return (
     <main className="bg-main-bg flex h-[calc(100vh-40px)] flex-col items-center justify-center rounded p-16">
+      {gameWon && <Confetti />}
       <h1 className="mb-3 text-4xl font-bold">Tenzies</h1>
       <p className="max-w-[300px] text-center text-lg">
         Roll until all dice are the same. Click each dice to freeze it at its
@@ -55,7 +61,7 @@ function App() {
         onClick={rollDice}
         className="bg-btn-bg cursor-pointer rounded-lg px-12 py-3 text-lg text-white"
       >
-        Roll
+        {gameWon ? "New Game" : "Roll"}
       </button>
     </main>
   );
