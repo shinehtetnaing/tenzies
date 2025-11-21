@@ -2,26 +2,27 @@ import { useState } from "react";
 import Confetti from "react-confetti";
 import Die from "./components/Die";
 
+function generateAllNewDice() {
+  console.log("generate all new dice was called");
+  return new Array(10).fill(0).map(() => ({
+    value: Math.ceil(Math.random() * 6),
+    isHeld: false,
+    id: crypto.randomUUID(),
+  }));
+  // const newDice = [];
+  // for (let i = 0; i < 10; i++) {
+  //   const rand = Math.ceil(Math.random() * 6);
+  //   newDice.push(rand);
+  // }
+  // return newDice;
+}
+
 function App() {
-  const [dice, setDice] = useState(generateAllNewDice());
+  const [dice, setDice] = useState(() => generateAllNewDice());
 
   const gameWon = dice.every(
     (die) => die.isHeld && die.value === dice[0].value,
   );
-
-  function generateAllNewDice() {
-    return new Array(10).fill(0).map(() => ({
-      value: Math.ceil(Math.random() * 6),
-      isHeld: false,
-      id: crypto.randomUUID(),
-    }));
-    // const newDice = [];
-    // for (let i = 0; i < 10; i++) {
-    //   const rand = Math.ceil(Math.random() * 6);
-    //   newDice.push(rand);
-    // }
-    // return newDice;
-  }
 
   const rollDice = () => {
     setDice((prevDice) =>
