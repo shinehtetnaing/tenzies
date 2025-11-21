@@ -25,11 +25,15 @@ function App() {
   );
 
   const rollDice = () => {
-    setDice((prevDice) =>
-      prevDice.map((die) =>
-        die.isHeld ? die : { ...die, value: Math.ceil(Math.random() * 6) },
-      ),
-    );
+    if (!gameWon) {
+      setDice((prevDice) =>
+        prevDice.map((die) =>
+          die.isHeld ? die : { ...die, value: Math.ceil(Math.random() * 6) },
+        ),
+      );
+    } else {
+      setDice(generateAllNewDice());
+    }
   };
 
   const hold = (id: string) => {
