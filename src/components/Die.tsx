@@ -12,6 +12,8 @@ const Die = ({
     <button
       onClick={hold}
       className={`${bgColor} size-14 cursor-pointer rounded-xl text-2xl font-semibold shadow-md`}
+      aria-label={`Die with value ${value}, ${held ? "held" : "not held"}`}
+      aria-pressed={held}
     >
       {value}
     </button>
